@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Mezzmo</title>
+
+		<script src="app/javascript/jquery-3.3.1.js"></script>
+		
+		<!-- Style sheets -->
+		<link rel="stylesheet" href="Main.css" type="text/css">
+
+		<!-- Common API -->
+        <script src="app/javascript/TizenTVKeyValue.js"></script>
+		<script type="text/javascript" src="$WEBAPIS/webapis/webapis.js"></script>
+		
+		<!-- Javascript code -->	
+		<script src="app/javascript/Main.js"></script>
+		<script src="app/javascript/Server.js"></script>	
+		<script src="app/javascript/Support.js"></script>
+		<script src="app/javascript/Support/json2.js"></script>
+		<script src="app/javascript/Support/File.js"></script>
+		<script src="app/javascript/Support/FileLog.js"></script>
+		<script src="app/javascript/Support/Sha1.js"></script>
+		<script src="app/javascript/Support/GuiHelper.js"></script>
+		<script src="app/javascript/Support/GuiNotifications.js"></script>
+		<script src="app/javascript/Support/polyfill.js"></script>
+		<script src="app/javascript/Support/ServerVersion.js"></script>
+		<script src="app/javascript/Support/srt-parser.js"></script>
+		<script src="app/javascript/Gui/GuiPage_NewServer.js"></script>
+		<script src="app/javascript/Gui/GuiPage_Servers.js"></script>
+		<script src="app/javascript/Gui/GuiDisplay_Servers.js"></script>
+		<script src="app/javascript/Gui/GuiUsers.js"></script>
+		<script src="app/javascript/Gui/GuiMainMenu.js"></script>
+		<script src="app/javascript/Gui/GuiPlayer/GuiPlayer.js"></script>
+		<script src="app/javascript/Gui/GuiPlayer/GuiPlayer_Display.js"></script>
+		<script src="app/javascript/Gui/GuiPlayer/lang.js"></script>
+		<script src="app/javascript/Gui/GuiPlayer/GuiPlayer_Versions.js"></script>
+		<script src="app/javascript/Gui/GuiPlayer/GuiPlayer_Transcoding.js"></script>
+		<script src="app/javascript/Gui/GuiPlayer/GuiPlayer_TranscodeParams.js"></script>
+		<script src="app/javascript/Gui/GuiMusicPlayer/GuiMusicPlayer.js"></script>
+		<script src="app/javascript/Gui/GuiPage_ItemDetails.js"></script>
+		<script src="app/javascript/Gui/GuiDisplay_MediaItems.js"></script>
+		<script src="app/javascript/Gui/GuiImagePlayer/GuiImagePlayer.js"></script>
+		<script src="app/javascript/Gui/GuiImagePlayer/GuiImagePlayer_Screensaver.js"></script>
+		<script src="app/javascript/Gui/GuiPage_Search.js"></script>
+		
+        
+        <script type="text/javascript">
+			window.onerror = function(msg, url, line, col, error) {
+			   // Note that col & error are new to the HTML 5 spec and may not be 
+			   // supported in every browser.  It worked for me in Chrome.
+			   var extra = !col ? '' : '\ncolumn: ' + col;
+			   extra += !error ? '' : '\nerror: ' + error;
+			
+			   // You can view the information in an alert to see things working like this:
+			   alert("Error: " + msg + " url: " + url + " line: " + line + extra);
+			   
+			   GuiNotifications.setNotification("Error: " + msg + " url: " + url + " line: " + line + extra,"Error",true);
+			   
+			   // TODO: Report this error via ajax so you can keep track
+			   //       of what pages have JS issues
+			
+			   var suppressErrorAlert = true;
+			   // If you return true, then error alerts (like in older versions of 
+			   // Internet Explorer) will be suppressed.
+			   return suppressErrorAlert;
+			};
+		</script>
+	</head>
+
+	<body id="body" onload="Main.onLoad();" onunload="Main.onUnload();" style="overflow:hidden;">
+	
+		<!-- Anchor as focus for key events -->
+		<div id="NoKeyInput"></div>
+		
+		<!-- Register page events -->
+		<a href="javascript:void(0);" id="NoItems" onkeydown="Support.noitemskeyDown();"></a>
+		<a href="javascript:void(0);" id="ServerVersion" onkeydown="ServerVersion.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiPage_Servers" onkeydown="GuiPage_Servers.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiPage_NewServer" onkeydown="GuiPage_NewServer.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiDisplay_Servers" onkeydown="GuiDisplay_Servers.keyDown();" onfocus="GuiDisplay_Servers.onFocus();"></a>
+		<a href="javascript:void(0);" id="GuiUsers" onkeydown="GuiUsers.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiHelper" onkeydown="GuiHelper.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiMainMenu" onkeydown="GuiMainMenu.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiMainMenuSubMenu" onkeydown="GuiMainMenu.keyDownSubMenu();"></a>
+		<a href="javascript:void(0);" id="GuiPage_ItemDetails" onkeydown="GuiPage_ItemDetails.keyDown();"  onfocus="GuiPage_ItemDetails.onFocus();"></a>
+		<a href="javascript:void(0);" id="GuiPage_ItemDetailsSub" onkeydown="GuiPage_ItemDetails.subKeyDown();"></a>
+		<a href="javascript:void(0);" id="GuiPlayer_Versions" onkeydown="GuiPlayer_Versions.keyDown();"></a>	
+		<a href="javascript:void(0);" id="GuiPlayer" onkeydown="GuiPlayer.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiPlayer_Tools" onkeydown="GuiPlayer_Display.keyDownTools();"></a>
+		<a href="javascript:void(0);" id="GuiPlayer_ToolsSlider" onkeydown="GuiPlayer_Display.keyDownToolsSlider();"></a>
+		<a href="javascript:void(0);" id="GuiPlayer_ToolsSub" onkeydown="GuiPlayer_Display.keyDownToolsSub();"></a>
+		<a href="javascript:void(0);" id="GuiMusicPlayer" onkeydown="GuiMusicPlayer.keyDown();" onfocus="GuiMusicPlayer.onFocus();"></a>
+		<a href="javascript:void(0);" id="GuiImagePlayer" onkeydown="GuiImagePlayer.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiPlayer_Control" onkeydown="GuiPlayer_Control.keyDown();"></a>
+		<a href="javascript:void(0);" id="GuiDisplay_MediaItems" onkeydown="GuiDisplay_MediaItems.keyDown();" onfocus="GuiDisplay_MediaItems.onFocus();"></a>
+		<a href="javascript:void(0);" id="GuiPage_Search" onkeydown="GuiPage_Search.keyDown();" onfocus="GuiPage_Search.onFocus();"></a>
+
+		
+		<!-- Shaded container for slideshow image info -->
+		<div id="GuiImagePlayer_ScreensaverOverlay" class="screensaveroverlay"></div>
+		
+		<!-- Main DIV -->
+		<div id="everything" class="everything">	
+			
+			<div id="videoPlayer" style="visibility:hidden"><video id="videoContent" width="1920px" height="1080px" poster="images/video_back.jpg"></video></div>
+				
+			<!-- Image Viewer -->
+			<div id="imageView" class="imageView" style="visibility:hidden"><canvas id="imageViewCanvas" width="1920px" height="1080px"></canvas></div>
+			<!-- <div id="imageView_Info" class="videoInfo" style="visibility:hidden"></div> -->
+			
+			<!-- Splash Screen -->
+			<div id="splashscreen" class="splash">
+			<div id="splashscreen_version" class="splash_version"></div>
+			</div>
+			
+			<!-- Background image -->
+			<div id="pageBackgroundHolder" class="pageBackground"></div>
+			<div id="pageBackground" class="pageBackground"></div>
+			<div id="pageBackgroundFade" class="pageBackgroundFade"></div>
+			<!-- <div id="itemBackgroundFade" class="itemBackgroundFade"></div> -->
+			
+			<!-- Main page content -->
+			<div id="page" class="page">
+				<div id="pageContent" class="GuiDisplay_MediaItems-pageContent"></div>		
+						
+				<div id="Counter" class="counter"></div>
+				<div id="Clock" class="time" style="visibility:hidden"></div>
+				<div id="Help" class="help" style="visibility:hidden">
+					<div id="HelpTitle" style="font-size:1.2em"></div>
+					<div id="HelpContent"></div>
+				</div>	
+				
+				<div id="guiPlayListContainer" style="visibility:hidden">
+				 <div style="font-size:1em;padding-top:40px;padding-left:60px;">Add to Playlist</div>
+				 <div id="guiPlayListExisting"></div>
+				 <div style="font-size:1em;padding-top:40px;padding-left:60px;">Create New Playlist</div>
+				 <form style="padding-top:20px;padding-left:80px;"><input id="guiPlayListNew" style="z-index:10;" type="text" size="45" value=""/></form>
+				 <div id="guiPlayListResult"></div>
+				</div>
+				
+				<div id="GuiDisplay_MediaItemsIndexing" class="GuiDisplay_MediaItemsIndexing" style="opacity:0"></div>
+				
+				<!--  Music Player -->
+				<div id="guiMusicPlayerDiv" class="guiMusicPlayerDiv" style="visibility:hidden">
+					<div id="guiMusicPlayerAlbumArt" class="guiMusicPlayerAlbumArt"></div>
+					<div id="guiMusicPlayerTitle" class="guiMusicPlayerTitle"></div>
+					<div id="guiMusicPlayerNowPlaying" class="guiMusicPlayerNowPlaying">Now Playing</div>	
+					<!--<div id="guiMusicPlayerScreenOff" class="guiMusicPlayerScreenOff">Screen Off</div> -->
+					<div id="guiMusicPlayerShuffle" class="guiMusicPlayerShuffle"></div>
+					<div id="guiMusicPlayerRepeat" class="guiMusicPlayerRepeat"></div>
+					<div id="guiMusicPlayerTime"  class="guiMusicPlayerTime"></div>	
+					<div id="guiMusicPlayerPlay" class="guiMusicPlayerPlay"></div>
+					<div id="guiMusicPlayerStop" class="guiMusicPlayerStop"></div>
+					<div id="guiMusicPlayerPrevious" class="guiMusicPlayerPrevious"></div>
+					<div id="guiMusicPlayerPause" class="guiMusicPlayerPause"></div>
+					<div id="guiMusicPlayerNext" class="guiMusicPlayerNext"></div>
+					<!--  <div id="guiMusicPlayerPlaylist" style="display:inline-block;"> Playlist </div>
+					<div id="guiMusicPlayerShowPlaylist" class="musicPlaylist" style="visibility:hidden">
+						<div id="guiMusicPlayerShowPlaylistContent"></div>
+					</div>	 -->				
+				</div>
+				
+				<!--  Coloured remote buttons -->
+				<div id="guiButtonShade" class="ButtonShade" style="visibility:hidden"></div>
+				<div id="guiRedButton" class="RedButton" style="visibility:hidden"></div>
+				<div id="guiGreenButton" class="GreenButton" style="visibility:hidden"></div>
+				<div id="guiYellowButton" class="YellowButton" style="visibility:hidden"></div>
+				<div id="guiBlueButton" class="BlueButton" style="visibility:hidden"></div>
+				<div id="guiReturnButton" class="ReturnButton" style="visibility:hidden"></div>	
+				
+				<div id="exitConfirm" class="exitConfirm">Are you sure you want exit Mezzmo?
+					<div id="exitConfirmYes" class="exitConfirmYes">Yes</div>
+					<div id="exitConfirmNo" class="exitConfirmNo">No</div>
+				</div>	
+
+				<div id="guiLoading" class="videoLoading" style="visibility:hidden">Loading</div>
+				
+			</div>	
+			<!-- MUST KEEP OUTSIDE OF page div else its hidden during video playback -->	
+			<div id="Notifications" style="visibility:hidden">
+				<div id="NotificationText" class="notificationText"></div>
+			</div>
+			<div id="guiPlayer_Versions_Playables" class="videoVersions" style="visibility:hidden"></div>
+			<div id="guiPlayer_Loading" class="videoLoading" style="visibility:hidden">Loading</div>
+			<div id="loading" class="loadingBack" style="visibility:hidden"><div class="loading"></div></div>
+			
+			<div id="guiPlayer_Osd" style="opacity:0">
+				<div id="guiPlayer_Info" class="videoInfo">
+					<div id="guiPlayer_Info_Time"  class="videoInfo_Time"></div>
+					<div id="guiPlayer_Info_Time_Total"  class="videoInfo_TimeTotal"></div>	
+					<div id="guiPlayer_Info_ProgressBar"  class="videoInfo_ProgressBar"><div id="guiPlayer_Info_ProgressBar_Current"></div></div>	
+					<div id="guiPlayer_Info_Details"  class="videoInfo_Details"></div>
+				
+					<div id="guiPlayer_ItemDetails" class="videoItemDetails"  style="visibility:hidden">
+						<div id="guiPlayer_ItemDetails_Title" class="videoItemDetailsTitle"></div>
+						<div id="guiPlayer_ItemDetails_SubData" class="videoItemDetailsSubData"></div>
+						<div id="guiPlayer_ItemDetails_Overview" class="videoItemDetailsSubData"></div>
+						<div id="guiPlayer_clock" class="time"></div>
+					</div>
+					<div id="guiPlayer_ItemDetails2" class="videoItemDetails">
+						<div id="guiPlayer_ItemDetails_Title2" class="videoItemDetailsTitle"></div>
+						<div id="guiPlayer_ItemDetails_SubData2" class="videoItemDetailsSubData"></div>
+						<div id="guiPlayer_clock2" class="time"></div>
+					</div>
+				</div>
+				<div id="guiPlayer_DvdArt" class="videoItemDvdArt"></div>
+				<div id="guiPlayer_Ratings" class="videoItemRatings"></div>
+			</div>
+			
+			<div id="guiPlayer_Tools" class="videoTools" style="opacity:0"></div>
+			<div id="guiPlayer_Tools_SubOptions" class="videoToolsOptions" style="visibility:hidden"></div>
+			<div id="guiPlayer_Tools_Slider" class="videoToolsSlider" style="visibility:hidden">
+				<div id="guiPlayer_Tools_SliderBarCurrentTime" class="videoTools_SliderBarCurrentTime"></div>
+				<div id="guiPlayer_Tools_SliderBar"  class="videoTools_SliderBar"></div>
+				<div id="guiPlayer_Tools_SliderBarCurrent" class="videoTools_SliderBarCurrent"></div>
+			</div>
+			
+			<div class="videoSubtitlesContainer"><div id="guiPlayer_Subtitles" class="videoSubtitles" style="visibility:hidden"></div></div>
+	
+			<!--  Menu -->
+			<div id="menu" class="menu">
+				<div id="menuItems"></div>	
+				<div id="menuVersion" class="menu-version"></div>	  
+			</div>
+		</div> <!-- Everything Div -->
+	</body>
+</html>

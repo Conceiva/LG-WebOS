@@ -1,0 +1,12 @@
+{
+    "vendor": "Conceiva",
+    "largeIcon": "largeIcon.png",
+    "icon": "icon.png",
+    "main": "index.html",
+    "id": "com.mezzmo.app",
+    "title": "Mezzmo",
+    "type": "web",
+    "version": "0.0.1",
+    "uiRevision":2,
+    "disableBackHistoryAPI": true
+}
