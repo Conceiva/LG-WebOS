@@ -9,19 +9,17 @@ GuiPage_NewServer.start = function() {
 	console.log("Page Enter : GuiPage_NewServer");
 	//GuiHelper.setControlButtons(null,null,null,null,"Return");
 		
-	document.getElementById("Counter").innerHTML = "";
-	
 	//Insert html into page
-	document.getElementById("pageContent").innerHTML = "<div class='GuiPage_NewServer12key'> \
+	document.getElementById("pageContent").innerHTML = "<div id=NewServerBack class='menu-icon' style='background-image:url(images/menu/Back-46x37.png)' onclick='GuiPage_Servers.start();'></div><div class='GuiPage_NewServer12key'> \
 		<p style='padding-bottom:5px;'>Enter the IP address & port number of your Mezzmo server. <br>(You can leave the port blank for 53168)</p> \
-		<form><input id='1' type='text' size='5'  maxlength='3' value=''/>. \
-		<input id='2' type='text' size='5'  maxlength='3' value=''/>. \
-		<input id='3' type='text' size='5'  maxlength='3' value=''/>. \
-		<input id='4' type='text' size='5'  maxlength='3' value=''/>: \
-		<input id='port' type='text' size='8'  maxlength='5'/></form> \ \
+		<form><input id='1' type='text' size=‘6’  maxlength='3' value=''/>. \
+		<input id='2' type='text' size=‘6’  maxlength='3' value=''/>. \
+		<input id='3' type='text' size=‘6’  maxlength='3' value=''/>. \
+		<input id='4' type='text' size=‘6’  maxlength='3' value=''/>: \
+		<input id='port' type='text' size=’10’  maxlength='5'/></form> \ \
 		<p style='padding-top:10px;padding-bottom:5px'>OR</p> \
 		<p style='padding-bottom:5px'>Enter your server hostname here without http:// and <br>including : and port number.</p> \
-		<form><input id='host' style='z-index:10;' type='text' size='25' value=''/></form> \
+		<form><input id='host' style='z-index:10;' type='text' size='45' value=''/></form> \
 		</div>";
 	
 	//Set Backdrop
@@ -144,18 +142,11 @@ GuiPage_NewServer.processServer = function() {
     	//Check if host is empty
     	if (host == "") {
     		//not valid
-			//hide Loading Div
-			document.getElementById("loading").style.visibility = "hidden";
         	GuiNotifications.setNotification("Please re-enter your server details.","Incorrect Details",true);
     	} else {
     		document.getElementById("pageContent").focus();                                   
             //Timeout required to allow notification command above to be displayed
-            setTimeout(function(){
-
-				//show Loading Div
-				document.getElementById("loading").style.visibility = "";
-				Server.testConnectionSettings(host,false);
-			}, 1000);
+            setTimeout(function(){Server.testConnectionSettings(host,false);}, 1000);
     	}
     } else {	
     	var Port = document.getElementById('port').value;
@@ -166,12 +157,7 @@ GuiPage_NewServer.processServer = function() {
         var ip = IP1 + '.' +  IP2 + '.' +  IP3 + '.' +  IP4 + ':' + Port;
         document.getElementById("pageContent").focus();                                   
         //Timeout required to allow notification command above to be displayed    
-        setTimeout(function(){
-
-			//show Loading Div
-			document.getElementById("loading").style.visibility = "";
-        	Server.testConnectionSettings(ip,false);
-        }, 1000);
+        setTimeout(function(){Server.testConnectionSettings(ip,false);}, 1000);
         
     }	
 }
@@ -191,10 +177,8 @@ GuiPage_NewServer.keyDown = function()
 	
 	switch(keyCode)
 	{
-		case 169:
 		case Common.API.KEY_RETURN:
 			console.log("RETURN");
-			Support.processReturnURLHistory();
 			break;
 		case Common.API.KEY_LEFT:
 			console.log("LEFT");	
@@ -202,7 +186,6 @@ GuiPage_NewServer.keyDown = function()
 			break;
 		case Common.API.KEY_RIGHT:
 			console.log("RIGHT");	
-			event.preventDefault();
 			this.focusRight();
 			break;
 		case Common.API.KEY_DOWN:
@@ -211,7 +194,6 @@ GuiPage_NewServer.keyDown = function()
 			break;	
 		case Common.API.KEY_ENTER:
 		case Common.API.KEY_PANEL_ENTER:
-		case 65376:
 			console.log("ENTER");
 			this.processServer();
 			break;	

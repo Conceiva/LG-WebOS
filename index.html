@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1,width=device-width, height=device-height, target-densitydpi=device-dpi" />
 		<title>Mezzmo</title>
 
 		<script src="app/javascript/jquery-3.3.1.js"></script>
@@ -17,6 +18,8 @@
 		<script src="app/javascript/Main.js"></script>
 		<script src="app/javascript/Server.js"></script>	
 		<script src="app/javascript/Support.js"></script>
+		<script src="app/javascript/discover.js"></script>
+		<script src="app/javascript/cordova-loader.js"></script>
 		<script src="app/javascript/Support/json2.js"></script>
 		<script src="app/javascript/Support/File.js"></script>
 		<script src="app/javascript/Support/FileLog.js"></script>
@@ -46,7 +49,7 @@
 		
         
         <script type="text/javascript">
-			window.onerror = function(msg, url, line, col, error) {
+			/*window.onerror = function(msg, url, line, col, error) {
 			   // Note that col & error are new to the HTML 5 spec and may not be 
 			   // supported in every browser.  It worked for me in Chrome.
 			   var extra = !col ? '' : '\ncolumn: ' + col;
@@ -64,11 +67,11 @@
 			   // If you return true, then error alerts (like in older versions of 
 			   // Internet Explorer) will be suppressed.
 			   return suppressErrorAlert;
-			};
+			};*/
 		</script>
 	</head>
 
-	<body id="body" onload="Main.onLoad();" onunload="Main.onUnload();" style="overflow:hidden;">
+	<body id="body" onload="Main.onLoad();" onunload="Main.onUnload();">
 	
 		<!-- Anchor as focus for key events -->
 		<div id="NoKeyInput"></div>
@@ -99,15 +102,24 @@
 		
 		<!-- Shaded container for slideshow image info -->
 		<div id="GuiImagePlayer_ScreensaverOverlay" class="screensaveroverlay"></div>
+		<div id='imageViewControls' style='display:none;'>
+			<div id=imageViewerBack class='menu-icon' style='background-image:url(images/menu/Back-46x37.png);z-index:555;' onclick='GuiImagePlayer.back();'></div>
+			<div id=imageViewerPrevious class='imageViewerPrev' onclick='GuiImagePlayer.prev();'></div>
+			<div id=imageViewerNext class='imageViewerNext' onclick='GuiImagePlayer.next();'></div>
+		</div>
 		
 		<!-- Main DIV -->
-		<div id="everything" class="everything">	
+        <div id="everything" class="everything">
 			
-			<div id="videoPlayer" style="visibility:hidden"><video id="videoContent" width="1920px" height="1080px" poster="images/video_back.jpg"></video></div>
+			<div id="videoPlayer" style="visibility:hidden;text-align:center; width:100%; position: fixed; top: 0; left: 0; bottom: 0; right: 0; "><video id="videoContent" width="100%" height="100%" poster="images/video_back.jpg"></video></div>
+				
 				
 			<!-- Image Viewer -->
-			<div id="imageView" class="imageView" style="visibility:hidden"><canvas id="imageViewCanvas" width="1920px" height="1080px"></canvas></div>
+			<div id="imageView" class="imageView" style="visibility:hidden">
+				<canvas id="imageViewCanvas" width="1920" height="1080"></canvas>
+			</div>
 			<!-- <div id="imageView_Info" class="videoInfo" style="visibility:hidden"></div> -->
+
 			
 			<!-- Splash Screen -->
 			<div id="splashscreen" class="splash">
@@ -121,7 +133,7 @@
 			<!-- <div id="itemBackgroundFade" class="itemBackgroundFade"></div> -->
 			
 			<!-- Main page content -->
-			<div id="page" class="page">
+			<div id="page" class="page" style="overflow:hidden">
 				<div id="pageContent" class="GuiDisplay_MediaItems-pageContent"></div>		
 						
 				<div id="Counter" class="counter"></div>
@@ -142,7 +154,8 @@
 				<div id="GuiDisplay_MediaItemsIndexing" class="GuiDisplay_MediaItemsIndexing" style="opacity:0"></div>
 				
 				<!--  Music Player -->
-				<div id="guiMusicPlayerDiv" class="guiMusicPlayerDiv" style="visibility:hidden">
+                <div id="guiMusicPlayerDiv" class="guiMusicPlayerDiv" style="visibility:hidden;background:#333333;">
+					<div id="guiMusicPlayer_Info_ProgressBar"  class="musicInfo_ProgressBar"><div id="guiMusicPlayer_Info_ProgressBar_Current"></div></div>
 					<div id="guiMusicPlayerAlbumArt" class="guiMusicPlayerAlbumArt"></div>
 					<div id="guiMusicPlayerTitle" class="guiMusicPlayerTitle"></div>
 					<div id="guiMusicPlayerNowPlaying" class="guiMusicPlayerNowPlaying">Now Playing</div>	
@@ -155,6 +168,7 @@
 					<div id="guiMusicPlayerPrevious" class="guiMusicPlayerPrevious"></div>
 					<div id="guiMusicPlayerPause" class="guiMusicPlayerPause"></div>
 					<div id="guiMusicPlayerNext" class="guiMusicPlayerNext"></div>
+					<div id="guiMusicPlayerHide" class="guiMusicPlayerHide" onclick="GuiMusicPlayer.toggleShow(false)"></div>
 					<!--  <div id="guiMusicPlayerPlaylist" style="display:inline-block;"> Playlist </div>
 					<div id="guiMusicPlayerShowPlaylist" class="musicPlaylist" style="visibility:hidden">
 						<div id="guiMusicPlayerShowPlaylistContent"></div>
@@ -186,6 +200,7 @@
 			<div id="loading" class="loadingBack" style="visibility:hidden"><div class="loading"></div></div>
 			
 			<div id="guiPlayer_Osd" style="opacity:0">
+				<div id="VideoBack" class="menu-icon" style="background-image:url(images/menu/Back-46x37.png)" onclick="GuiPlayer.back();"></div>
 				<div id="guiPlayer_Info" class="videoInfo">
 					<div id="guiPlayer_Info_Time"  class="videoInfo_Time"></div>
 					<div id="guiPlayer_Info_Time_Total"  class="videoInfo_TimeTotal"></div>	
@@ -206,6 +221,7 @@
 				</div>
 				<div id="guiPlayer_DvdArt" class="videoItemDvdArt"></div>
 				<div id="guiPlayer_Ratings" class="videoItemRatings"></div>
+				<div id="guiPlayer_PlayPause" class="videoItemPlayPause"></div>
 			</div>
 			
 			<div id="guiPlayer_Tools" class="videoTools" style="opacity:0"></div>

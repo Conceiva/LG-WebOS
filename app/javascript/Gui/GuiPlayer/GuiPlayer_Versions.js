@@ -145,7 +145,7 @@ GuiPlayer_Versions.updateSelectedItems = function() {
 			document.getElementById(this.MediaSelections[index][0].Id).style.color = "white";		
 		}		
 	} 
-	document.getElementById("Counter").innerHTML = (this.selectedItem + 1) + "/" + this.MediaSelections.length;
+	//document.getElementById("Counter").innerHTML = (this.selectedItem + 1) + "/" + this.MediaSelections.length;
 }
 
 

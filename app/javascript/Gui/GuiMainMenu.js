@@ -54,15 +54,20 @@ GuiMainMenu.start = function() {
 	
 	//Add settings and logout
 	htmlToAdd = "";
+	this.menuItems.push("Back");
+	htmlToAdd += "<div id=Back class='menu-icon' style='background-image:url(images/menu/Back-46x37.png)' onclick='Support.processReturnURLHistory();'></div>";
+	
+	
+	
 	this.menuItems.push("Search");
-	htmlToAdd += "<div id=Search class='menu-icon' style='background-image:url(images/menu/Search-46x37.png)'></div>";
+	htmlToAdd += "<div id=Search class='menu-icon' style='background-image:url(images/menu/Search-46x37.png)' onclick='Support.processHomePageMenu(GuiMainMenu.menuItems[1]);'></div>";
 	//this.menuItems.push("Settings");
 	//htmlToAdd += "<div id=Settings class='menu-item'><div id='menu-Icon' class='menu-icon'style='background-image:url(images/menu/Settings-46x37.png)'></div>Settings</div>";
 	this.menuItems.push("Servers");
-	htmlToAdd += "<div id=Servers class='menu-icon' style='background-image:url(images/menu/Settings-46x37.png)'></div>";	
+	htmlToAdd += "<div id=Servers class='menu-icon' style='background-image:url(images/menu/Settings-46x37.png)' onclick='Support.processHomePageMenu(GuiMainMenu.menuItems[2]);'></div>";	
 	
 	this.menuItems.push("Music");
-	htmlToAdd += "<div id=Music class='menu-icon' style='background-image:url(images/menu/Music-46x37.png)'></div>";	
+	htmlToAdd += "<div id=Music class='menu-icon' style='background-image:url(images/menu/Music-46x37.png)' onclick='GuiMusicPlayer.toggleShow(true);'></div>";	
 	
 	document.getElementById("menuItems").innerHTML += htmlToAdd;
 	
@@ -293,10 +298,6 @@ GuiMainMenu.processReturnKey = function() {
 			GuiMusicPlayer.showMusicPlayer(this.selectedDivId);
 		}
 
-		if (this.pageSelected == "GuiDisplay_MediaItems") {
-			GuiDisplay_MediaItems.restoreSelectedItem();
-		}
-		
 		//Set Page GUI elements Correct & Set Focus
 		if (this.selectedDivId != null) {
 			if (this.selectedDivClass == "UNDEFINED") {

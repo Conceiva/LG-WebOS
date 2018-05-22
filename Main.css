@@ -5,42 +5,54 @@
  	font-family: 'Open Sans', sans-serif;
 }
 
+html,
+body {
+    overflow:hidden;
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
 .everything{
-	font-size: 27px;
+	font-size: 17px;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000000;
 }
 
 td {
 	color: white;
-	font-size: 27px;
+	font-size: 17px;
 }
 
 input[type="text"]
 {
-    font-size: 1em;
+    font-size: 0.7em;
 }
 
 input[type="password"]
 {
-    font-size: 1em;
+    font-size: 0.7em;
 }
 
 .loadingBack{
     position:absolute;
-    top:440px;
-    left:810px;
-    height:200px;
-    width:300px;
+    top:40%;
+    left: 25%;
+    height:20%;
+    width:50%;
 	border-radius: 10px;
-	background-image:url('images/loadingBack.png');
+	background:#333333;
     z-index:15;
 }
 
 .loading{
 	position:relative;
-	top:20px;
-	left:70px;
-    height:160px;
-    width:160px;
+	top:15%;
+	left:15%;
+    height:70%;
+    width:70%;
     background-repeat: no-repeat;
     background-position:center;
     background-size:contain;
@@ -72,8 +84,8 @@ input[type="password"]
 .splash{ 
 	position: fixed;
 	top: 0px;
-	width: 1920px;
-	height: 1080px;
+	width: 100%;
+	height: 100%;
 	z-index: 1000;
 	background-image: url('images/splash.jpg');
 	background-repeat: no-repeat;
@@ -86,7 +98,7 @@ input[type="password"]
 	position:absolute;
 	bottom:2px;
 	left:5px;	
-	font-size:1em;
+	font-size:0.7em;
 	color: white;
 }
 
@@ -94,12 +106,12 @@ input[type="password"]
 	position:absolute;
     top:0px;
     left:0px;
-    height:1080px;
-    width:1920px;
+    height:100%;
+    width:100%;
     background-repeat: no-repeat;
     background-position:center;
     background-color:rgba(59,59,59,1);
-    background-size:contain;
+    background-size:cover;
     -webkit-transition: opacity 3s ease-in-out;
     transition: opacity 3s ease-in-out;
     z-index:-1;
@@ -133,20 +145,45 @@ input[type="password"]
 .page {
 	position: absolute;
  	left: 0px; top: 0px;
-   	width: 1920px; height: 1080px;
+   	width: 100%; height: 100%;
    	color:#f9f9f9;	
 	text-align:left;
-    font-size:1em;
+    font-size:0.7em;
+    overflow:hidden;
 }
 
 .imageView {
 	position: absolute;
  	left: 0px; top: 0px;
-   	width: 1920px; height: 1080px;
+   	width: 100%; height: 100%;
    	color:#f9f9f9;	
 	background-color: black; 
 	text-align:left; 
 	z-index:8;
+}
+
+.imageViewerPrev {
+	position: absolute;
+	left: 25%; 
+	bottom:30px;
+	width: 35px;
+	height: 35px;
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-image:url(images/musicplayer/skip-previous-36x37.png);
+	z-index:555;
+}
+
+.imageViewerNext {
+	position: absolute;
+	right: 25%; 
+	bottom:30px;
+	width: 35px;
+	height: 35px;
+	background-position: center; 
+	background-repeat: no-repeat;
+	background-image:url(images/musicplayer/skip-next-36x37.png);
+	z-index:555;
 }
 
 /*----------------------------------------------------------------------------------------------*/
@@ -154,10 +191,10 @@ input[type="password"]
 .menu {
 	position: absolute;
  	left: 0px; top: 0px;
- 	height:1080px; width:50px;
+ 	height:100%; width:50px;
 	color:#f9f9f9;	
 	text-align:left; 	
-    font-size:1em;
+    font-size:0.7em;
     z-index:8;
 }
 
@@ -197,7 +234,7 @@ input[type="password"]
 	position: relative;
 	left: 5px; top: 0px;
 	padding-left: 5px;
-	width: 55px;
+	width: 35px;
 	height: 65px;
 	background-position: center; 
 	background-repeat: no-repeat;
@@ -271,7 +308,7 @@ input[type="password"]
 	background-image:url('images/help_red.png');
 	background-repeat: no-repeat;
 	background-position:left;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color: white;
 	z-index:15;
 }
@@ -286,7 +323,7 @@ input[type="password"]
 	background-image:url('images/help_green.png');
 	background-repeat: no-repeat;
 	background-position:left;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color: white;
 	z-index:16;
 }
@@ -301,7 +338,7 @@ input[type="password"]
 	background-image:url('images/help_yellow.png');
 	background-repeat: no-repeat;
 	background-position:left;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color: white;
 	z-index:17;
 }
@@ -316,7 +353,7 @@ input[type="password"]
 	background-image:url('images/help_blue.png');
 	background-repeat: no-repeat;
 	background-position:left;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color: white;
 	z-index:18;
 }
@@ -331,7 +368,7 @@ input[type="password"]
 	background-image:url('images/return-34x36.png');
 	background-repeat: no-repeat;
 	background-position:left;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color: white;
 	z-index:21;
 }
@@ -360,11 +397,11 @@ input[type="password"]
 
 .notification {
 	position:absolute;
-	top:390px;
-	left:710px;
+	top:25%;
+	left:10px;
 	padding:20px;
-	height:300px;
-	width:500px;
+	height:50%;
+	width:80%;
 	color:white;
 	z-index:9999;
 	background-color:#303030;
@@ -388,7 +425,7 @@ input[type="password"]
 	position:absolute;
 	bottom:4px;
 	left:7px;	
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color: white;
 	z-index:5
 }
@@ -399,7 +436,7 @@ input[type="password"]
 	right:10px;
 	width:100px;
 	height:35px;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	line-height:30px;
 	text-align:right;
 	vertical-align:middle;
@@ -418,12 +455,11 @@ input[type="password"]
 	position:absolute;
 	padding:30px;
 	top:200px;
-	left:540px;
-	width:840px;
+	left:0px;
+	width:85%;
 	height:300px;
 	text-align:center;
 	background-color:#303030;
-	border-radius: 25px;
 	z-index:5;
 }
 
@@ -460,9 +496,9 @@ input[type="password"]
 
 .SearchPageInput {
 	position:absolute;
-	top:270px;
-	left:660px;
-	width:600px;
+	top:190px;
+	left:10%;
+	width:80%;
 	text-align:center;
 	z-index:5;
 }
@@ -499,8 +535,8 @@ input[type="password"]
 	position:absolute;
 	top:20px;
 	left:40px;
-	width:1000px;
-	height:200px;
+	width:50px;
+	height:50px;
 	background-repeat: no-repeat;
     background-position:left;
     background-size: contain;
@@ -508,7 +544,7 @@ input[type="password"]
 }
 
 .EpisodesInfo {
-	font-size:1em;
+	font-size:0.7em;
 	position:absolute;
 	top:510px;
 	left:60px;
@@ -543,7 +579,7 @@ input[type="password"]
 }
 
 .EpisodesSubData {	
-	font-size:1em;
+	font-size:0.7em;
 	position:absolute;
 	top:960px;
 	left:60px;
@@ -584,10 +620,9 @@ input[type="password"]
 }
 
 .MetadataItemSmall {
-	font-size:35px;
+	font-size:1.3em;
 	position:relative;
 	vertical-align:middle;
-	text-align:center;
 	padding-right:30px;
 	height:40px;
     background-position:left;
@@ -797,8 +832,8 @@ input[type="password"]
 /*----------------------------------------------------------------------------------------------*/
 
 .User {
-	width: 180px;
-    height: 180px;
+	width: 80px;
+    height: 80px;
     display:inline-block;
     position:relative; 
     margin:8px;
@@ -809,7 +844,7 @@ input[type="password"]
     overflow: hidden; 
     background-color: #3b3b3b;  
     background-repeat: no-repeat;
-    background-position:center;
+    background-size:contain;
 }
 
 .Series {
@@ -864,6 +899,26 @@ input[type="password"]
     background-size: 100% 100%;
 }
 
+.SeriesPortrait1280 {
+	width: 176px;
+    height: 176px;
+    display:inline-block;
+    vertical-align: middle;
+    position:relative; 
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border:3px solid rgba(39,39,39,0.5);
+    border-radius: 0px;
+    white-space:nowrap;
+    text-overflow:ellipsis; 
+    overflow: hidden; 
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: 100% 100%;
+}
+
 .SeriesPortraitLarge {
 	width: 235px;
     height: 348px;
@@ -884,8 +939,8 @@ input[type="password"]
 }
 
 .ExtraLandscape {
-	width: 272px;
-    height: 180px;
+	width: 105px;
+    height: 55px;
     display:inline-block;
     vertical-align: middle;
     position:relative; 
@@ -904,8 +959,8 @@ input[type="password"]
 }
 
 .ActorItem {
-	width: 130px;
-    height: 160px;
+	width: 65px;
+    height: 80px;
     display:inline-block;
     vertical-align: middle;
     position:relative; 
@@ -1052,7 +1107,7 @@ input[type="password"]
 	text-overflow:ellipsis;
 	overflow:hidden;
 	color:#ffffff;
-	font-size: 0.6em;
+	font-size: 0.7em;
 }
 
 .menuItemImage {	
@@ -1186,7 +1241,7 @@ input[type="password"]
 .GuiDisplay_MediaItems-pageContent{
 	position: absolute;
  	left: 0px; top: 0px;
-   	width: 1920px; height: 1080px;
+   	width: 100%; height: 100%;
 }
 
 .albumArtist-lowerTitle{
@@ -1209,9 +1264,9 @@ input[type="password"]
 .SeriesContent {
 	position:absolute;
 	top:60px;
-	left:95px;
-	width:1820px;
-	height:250px;
+	left:45px;
+	width:80%;
+	height:90px;
 	z-index:5;
 	background-color:rgba(39,39,39,0.5);
 }
@@ -1219,10 +1274,10 @@ input[type="password"]
 .SeriesTitle {
 	position:absolute;
 	top:15px;
-	left:280px;
-	width:1000px;
-	height:200px;
-	font-size:1.6em;
+	left:110px;
+	width:100%px;
+	height:90px;
+	font-size:1.3em;
 	text-overflow:ellipsis;
 	overflow:hidden;
 	color:#ffffff;
@@ -1231,20 +1286,20 @@ input[type="password"]
 .SeriesSubData {
 	padding-top:5px;
 	color:#2ad;
-	font-size:1.2em;
+	font-size:0.8em;
 }
 
 .SeriesOverview {
 	position:absolute;
-	font-size:0.9em;
+	font-size:1.1em;
 	top:65px;
-	left:280px;
-	width:1540px;
-	height:160px;
+	left:115px;
+	width:70%;
+	height:90px;
 	padding-right:10px;
-	max-height:155px;
+	max-height:90px;
 	overflow-y:hidden;
-	border-radius: 10px;
+	border-radius: 5px;
 	color:#ffffff;
 }
 
@@ -1263,15 +1318,15 @@ input[type="password"]
 	position:absolute;
 	top:105px;
 	left:5px;
-	width:1910px;
+	width:95%px;
 	text-align: center;
 }
 
 .SeriesCenterLower{
 	position:absolute;
-	top:155px;
+	top:55px;
 	left:5px;
-	width:1910px;
+	width:100%;
 	text-align: center;
 }
 
@@ -1288,19 +1343,21 @@ input[type="password"]
 
 .infoContainer {
 	position:absolute;
-	left:520px;
-	top:50px;
-	width:1340px;
-	height:1820px;
+	left:140px;
+	top:10%;
+	width:80%;
+	height:90%;
 	z-index:5
+    overflow-y:auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 .guiTV_Show_MediaAlternative{
 	position:absolute;
 	bottom:50px;
 	left:40px;
-	width:420px;
-	height:200px;
+	width:00px;
+	height:0px;
 	text-align:center;
 	z-index:5
 }
@@ -1317,10 +1374,10 @@ input[type="password"]
 
 .guiFilm_Overview {
 	position:relative;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	min-height:200px;
-	max-height:400px;
-	overflow-y:scroll;
+	max-height:200px;
+	overflow-y:hidden;
 	border-radius: 10px;
 	z-index:5
 	color:#ffffff;
@@ -1328,12 +1385,11 @@ input[type="password"]
 
 .guiFilm_Cast {
 	position:relative;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	min-height:200px;
 	max-height:200px;
-	overflow-y:hidden;
+	overflow-y:scroll;
 	text-overflow:ellipsis;
-	overflow:hidden;
 	color:#ffffff;
 	padding-top: 5px;
 	border-radius: 10px;
@@ -1342,7 +1398,7 @@ input[type="password"]
 
 .ExtraContent{
 	position:relative;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	min-height:200px;
 	max-height:400px;
 	width:100%;
@@ -1432,10 +1488,10 @@ input[type="password"]
 }
 
 .FilmListSingle{
-	height:60px;
-	width:420px;
+	height:50px;
+	width:100px;
 	border-bottom: 2px solid grey;
-	z-index:5;
+	z-index:15;
 }
 
 .FilmListSubSingle{
@@ -1464,7 +1520,8 @@ input[type="password"]
 	position:relative;
 	display:inline-block;
 	height:100%;
-	width:120px;
+	width:30px;
+	background-size: contain;
 	background-repeat: no-repeat;
     background-position:center;
     z-index:5;
@@ -1483,8 +1540,9 @@ input[type="password"]
 .ShowListSingleTitle{
 	position:absolute;
 	display:inline-block;
-	width:260px;
-	height:70px;
+	width:60px;
+	height:50px;
+	line-height:50px;
 	z-index:5;
 }
 
@@ -1495,8 +1553,10 @@ input[type="password"]
 }
 
 .ShowListTextOneLineFilm {
-	position:relative;
-	top:16px;
+	position:relative;  
+	display: inline-block;
+	vertical-align: middle;
+	line-height:14px;
 	z-index:5;
 }
 
@@ -1505,7 +1565,7 @@ input[type="password"]
 	width:40px;
 	height:40px;
 	line-height:40px;
-	font-size: 0.6em;
+	font-size: 0.7em;
 	text-align:center;
 	vertical-align:top;
 	border-radius:20px;
@@ -1539,9 +1599,9 @@ input[type="password"]
 
 .guiTV_Episode_Options{
 	position:absolute;
-	top:510px;
-	left:40px;
-	z-index:5;
+	top:410px;
+	left:10px;
+	z-index:55;
 }
 
 .guiTV_Show_Metadata2{
@@ -1657,10 +1717,10 @@ input[type="password"]
 
 .guiFilm_Poster {
 	position:absolute;
-    top:60px;
-    left:100px;
-	width: 270px;
-    height: 400px;
+    top:250px;
+    left:10px;
+	width: 100px;
+    height: 150px;
 	background-size: contain;
     background-repeat: no-repeat;
     background-position:center;
@@ -1670,8 +1730,8 @@ input[type="password"]
 .imageDisk {
 	position:absolute;
     right:50px;
-	width: 250px;
-    height: 250px;
+	width: 0px;
+    height: 0px;
     bottom:150px;
     background-repeat: no-repeat;
     background-position:center;
@@ -1702,7 +1762,7 @@ input[type="password"]
 .videoTrailerContainer {
 	position:absolute;
 	top:35px;
-	left:1080px;
+	left:100%;
 	height:492px;
 	width:800px;
 	background-repeat: no-repeat;
@@ -1723,7 +1783,7 @@ input[type="password"]
 }
 
 .guiTV_Episode_Overview {	
-	font-size:1.1em;
+	font-size:1.0.7em;
 	width:680px;
 	min-height:100px;
 	max-height:145px;
@@ -1906,16 +1966,16 @@ input[type="password"]
 .videoInfo_TimeTotal{
 	position:absolute;
 	top:5px;
-    left:885px;
+    left:80%;
 	z-index:5;
 }
 
 .videoInfo_ProgressBar {
-	width:750px;
+	width:60%;
 	height:10px;
 	position:absolute;
 	top:20px;
-    left:115px;
+    left:70px;
     background-color:#555;
 	z-index:5;
 }
@@ -1923,7 +1983,7 @@ input[type="password"]
 .videoInfo_ProgressBar_Current {
 	position:absolute;
 	top:25px;
-    left:500px;
+    left:60px;
 	width:0px;
 	height:10px;
     background-color:rgba(141,198,63,1);
@@ -1933,7 +1993,7 @@ input[type="password"]
 	position:absolute;
 	top:17px;
     left:20px;
-    width:820px;
+    width:80%;
     height:120px;
     background-repeat: no-repeat;
     background-position:left;
@@ -1966,8 +2026,8 @@ input[type="password"]
 	position:absolute;
     bottom:10px;
     right:100px;
-	width: 200px;
-    height: 280px;
+	width: 100px;
+    height: 180px;
 	background-size: contain;
     background-repeat: no-repeat;
     background-position: left;
@@ -1981,6 +2041,16 @@ input[type="password"]
 	width: 100px;
     height: 100px;
     background-color:rgba(0,0,0,0);
+}
+
+.videoItemPlayPause {
+	position:absolute;
+    bottom:10px;
+    left: 210px;
+	width: 50px;
+    height: 50px;
+	z-index:50;
+    background:url('images/ic_play_arrow_white_48dp_1x.png');
 }
 
 .videoItemRatingsTomatoIcon {
@@ -2027,7 +2097,7 @@ input[type="password"]
 
 .tvGuide {
 	position:absolute;
-	font-size:1em;
+	font-size:0.7em;
 	width:1800px;
 	height:800px;
 	left:60px;
@@ -2196,7 +2266,7 @@ input[type="password"]
 	display: block;
 	padding-left:10px;
 	padding-right:10px;
-	font-size:1.1em;
+	font-size:1.0.7em;
 	color:#aaa;
 	width:1480px;
 	max-height:80px;
@@ -2331,14 +2401,22 @@ input[type="password"]
 
 .guiMusicPlayerDiv {
 	position:absolute;
-	height:60px;
 	bottom:0px;
-	width:200%;
-	height:124px;
+	width:100%;
+	height:100px;
 	text-align:left;	
 	display:inline-block;
 	vertical-align:middle;
 	z-index:20;
+}
+
+.musicInfo_ProgressBar {
+	width:90%;
+	height:10px;
+	position:absolute;
+    left:5%;
+    background-color:#555;
+	z-index:5;
 }
 
 .guiMusicPlayerAlbumArt {
@@ -2377,39 +2455,39 @@ input[type="password"]
 
 .guiMusicPlayerShuffle {
 	position:absolute;
-	bottom:10px;
-	left:940px;
-	width:64px;
-    height:64px;
+	bottom:65px;
+	left:90px;
+	width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/shuffle_off.png');
 	background-repeat:no-repeat;
-    background-position:center;
+    background-size:contain;
 }
 
 .guiMusicPlayerRepeat {
 	position:absolute;
-	bottom:10px;
-	left:1010px;
-	width:64px;
-    height:64px;
+    bottom:65px;
+    left:120px;
+    width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/repeat_off.png');
 	background-repeat:no-repeat;
-    background-position:center;
+    background-size:contain;
 }
 
 .guiMusicPlayerTime {
 	position:absolute;
-	bottom:10px;
-	left:1120px;
+	bottom:65px;
+	left:150px;
 	width:200px;
 }
 
 .guiMusicPlayerPlay {
 	position:absolute;
-	bottom:10px;
-	left:1340px;;
-	width:64px;
-    height:64px;
+	bottom:30px;
+	left:90px;;
+	width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/play-29x37.png');
 	background-repeat:no-repeat;
     background-position:center;
@@ -2417,10 +2495,10 @@ input[type="password"]
 
 .guiMusicPlayerStop {
 	position:absolute;
-	bottom:10px;
-	left:1408px;
-	width:64px;
-    height:64px;
+	bottom:30px;
+	left:130px;
+	width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/stop-37x37.png');
 	background-repeat: no-repeat;
     background-position:center;
@@ -2428,10 +2506,10 @@ input[type="password"]
 
 .guiMusicPlayerPrevious {
 	position:absolute;
-	bottom:10px;
-	left:1486px;
-	width:64px;
-    height:64px;
+	bottom:30px;
+	left:170px;
+	width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/skip-previous-36x37.png');
 	background-repeat: no-repeat;
     background-position:center;
@@ -2439,10 +2517,10 @@ input[type="password"]
 
 .guiMusicPlayerPause {
 	position:absolute;
-	bottom:10px;
-	left:1564px;
-	width:64px;
-    height:64px;
+	bottom:30px;
+	left:210px;
+	width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/pause-32x37.png');
 	background-repeat: no-repeat;
     background-position:center;
@@ -2450,11 +2528,22 @@ input[type="password"]
 
 .guiMusicPlayerNext {
 	position:absolute;
-	bottom:10px;
-	left:1642px;
-	width:64px;
-    height:64px;
+	bottom:30px;
+	left:250px;
+	width:24px;
+    height:24px;
 	background-image:url('images/musicplayer/skip-next-36x37.png');
+	background-repeat: no-repeat;
+    background-position:center;
+}
+
+.guiMusicPlayerHide {
+	position:absolute;
+    top: 10px;
+    right: 0px;
+	width:24px;
+    height:24px;
+	background-image:url('images/musicplayer/ic_close_white_24dp_1x.png');
 	background-repeat: no-repeat;
     background-position:center;
 }
@@ -2535,10 +2624,6 @@ input[type="password"]
 	border:3px solid rgba(141,198,63,1);
 }
 
-.invisibleMezzmoBoarder {
-	border:3px solid rgba(141,198,63,0);
-}
-
 .highlight1Boarder {
 	border:3px solid rgba(39,164,54,1);
 }
@@ -2578,6 +2663,14 @@ input[type="password"]
 }
 
 #guiPlayer_Info_ProgressBar_Current{
+	display: block;
+	height: 100%;
+	background-color: rgba(141,198,63,1);
+	position: relative;
+	overflow: hidden;
+}
+
+#guiMusicPlayer_Info_ProgressBar_Current{
 	display: block;
 	height: 100%;
 	background-color: rgba(141,198,63,1);
@@ -2720,7 +2813,7 @@ direction				: ltr;
 }
 
 .item_v {
-margin					: 0px 1em;
+margin					: 0px 0.7em;
 padding					: 0px 0.2em 0px 0.25em;
 border-radius			: 3px;
 font-size				: 72%;
@@ -2767,7 +2860,7 @@ margin 					: 0px;
 padding					: 0px;
 border					: 0px;
 font-size				: 0px;
-line-height				: 142px;
+line-height				: 124px;
 text-align				: center;
 display					: block;
 float					: none;
@@ -2807,4 +2900,13 @@ vertical-align			: top;
 
 tr.spaceUnder>td {
   padding-bottom: 5px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: transparent;
 }

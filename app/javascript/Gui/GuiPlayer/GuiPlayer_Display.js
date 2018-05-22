@@ -194,7 +194,9 @@ GuiPlayer_Display.restorePreviousMenu = function() {
 	Support.screensaver();
 
 	//Return to correct Page
-	Support.processReturnURLHistory(this.PlayerData.bookmark);
+	if (GuiPlayer_Display.PlayerData != null) {
+		Support.processReturnURLHistory(GuiPlayer_Display.PlayerData.bookmark);
+	}
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------

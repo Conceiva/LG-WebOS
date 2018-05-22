@@ -312,9 +312,9 @@ GuiDisplay_MediaItems.updateSelectedItems = function () {
 		Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
 				Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"Music seriesSelected","Music","",false,this.totalRecordCount);
 	} else {
-		if (File.getUserProperty("LargerView") == true) {
+		if (window.innerWidth == 1280) {
 			Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
-					Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortraitLarge Selected highlightMezzmoBoarder","SeriesPortraitLarge","",false,this.totalRecordCount);
+					Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortrait1280 Selected highlightMezzmoBoarder","SeriesPortrait1280","",false,this.totalRecordCount);
 		} else {
 			Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
 					Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortrait seriesSelected highlightMezzmoBoarder","SeriesPortrait","",false,this.totalRecordCount);
@@ -472,7 +472,7 @@ GuiDisplay_MediaItems.updateSelectedBannerItems = function() {
 
 GuiDisplay_MediaItems.keyDown = function() {
 	var keyCode = event.keyCode;
-	console.log("Key pressed: " + keyCode);
+	alert("Key pressed: " + keyCode);
 
 	if (document.getElementById("Notifications").style.visibility == "") {
 		document.getElementById("Notifications").style.visibility = "hidden";
@@ -532,8 +532,8 @@ GuiDisplay_MediaItems.keyDown = function() {
 			this.processChannelDownKey();
 			break;	
 		case Common.API.KEY_RETURN:
-		case 1537:
-			alert("RETURN");
+		case 169:
+			console.log("RETURN");
 			event.preventDefault();
 			Support.processReturnURLHistory();
 			break;	
@@ -587,6 +587,11 @@ GuiDisplay_MediaItems.keyDown = function() {
 			tizen.application.getCurrentApplication().exit();
 			break;
 	}
+}
+
+GuiDisplay_MediaItems.onClickItem = function(position) {
+	this.selectedItem = position;
+	this.processSelectedItem();
 }
 
 GuiDisplay_MediaItems.processSelectedItem = function() {
@@ -668,7 +673,6 @@ GuiDisplay_MediaItems.processSelectedItem = function() {
 		if (this.PlaylistId.indexOf("cvasearch:") == 0) {
 			this.ItemData[this.selectedItem].parentId = this.PlaylistId;
 		}
-		
 		Support.processSelectedItem("GuiDisplay_MediaItems",this.ItemData,this.startParams,this.selectedItem,this.topLeftItem,null,this.genreType,this.isLatest); 	
 
 		if (this.ItemData != null && this.ItemData[this.selectedItem].MediaType == "Audio") {
@@ -738,7 +742,7 @@ GuiDisplay_MediaItems.openMenu = function() {
 		GuiMainMenu.requested("GuiDisplay_MediaItems",this.ItemData[this.selectedItem].Id,"Music Selected");
 	} else { //TV or Movies
 		Support.updateURLHistory("GuiDisplay_MediaItems",this.startParams[0],this.startParams[1],null,null,this.selectedItem,this.topLeftItem,null,this.PlaylistId,this.ParentData);
-		GuiMainMenu.requested("GuiDisplay_MediaItems",this.ItemData[this.selectedItem].Id,(File.getUserProperty("LargerView") == true) ? "SeriesPortraitLarge Selected" : "SeriesPortrait Selected");
+		GuiMainMenu.requested("GuiDisplay_MediaItems",this.ItemData[this.selectedItem].Id,(window.innerWidth == 1280) ? "SeriesPortrait1280 Selected" : "SeriesPortrait Selected");
 	}
 }
 
@@ -813,9 +817,9 @@ GuiDisplay_MediaItems.processUpKey = function() {
 				Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
 						Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"Music Selected","Music","");
 			} else {
-				if (File.getUserProperty("LargerView") == true) {
+				if (window.innerWidth == 1280) {
 					Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
-							Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortraitLarge Selected","SeriesPortraitLarge","");
+							Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortrait1280 Selected","SeriesPortrait1280","");
 				} else {
 					Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
 							Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortrait Selected","SeriesPortrait","");

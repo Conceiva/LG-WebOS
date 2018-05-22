@@ -32,7 +32,7 @@ GuiPage_Search.start = function(title, url, term) {
 	Support.fadeImage("images/searchbg.jpg");
 	
 	//Change Display
-	document.getElementById("pageContent").innerHTML = "<div id=SeriesContent class='SeriesContent'>" +
+	document.getElementById("pageContent").innerHTML = "<div><div id=SearchBack class='menu-icon' style='background-image:url(images/menu/Back-46x37.png)' onclick='Support.processReturnURLHistory();'></div><div id=SeriesContent class='SeriesContent'>" +
 						"<div id='SearchPoster' class='FilmInfoLogo'></div>" +
 						"<div id='SeriesTitle' class='SeriesTitle'>" + title + "</div>" +
 						"<div id='SeriesSubData' class='SeriesSubData'></div>" +
@@ -97,7 +97,7 @@ GuiPage_Search.updateSelectedItems = function () {
 	}
 
 	//Set Counter to be album count or x/3 for top part
-	document.getElementById("Counter").innerHTML = (this.selectedItem + 1) + "/" + this.ItemData.SearchHints.length;	
+	//document.getElementById("Counter").innerHTML = (this.selectedItem + 1) + "/" + this.ItemData.SearchHints.length;	
 }
 
 GuiPage_Search.processSelectedItem = function() {
@@ -138,7 +138,7 @@ GuiPage_Search.processSelectedItem = function() {
 GuiPage_Search.keyDown = function() {
 	var keyCode = event.keyCode;
 	console.log("Key pressed: " + keyCode);
-
+	
 	if (document.getElementById("Notifications").style.visibility == "") {
 		document.getElementById("Notifications").style.visibility = "hidden";
 		document.getElementById("NotificationText").innerHTML = "";
@@ -191,21 +191,17 @@ GuiPage_Search.keyDown = function() {
 			break;	
 		case Common.API.KEY_ENTER:
 		case Common.API.KEY_PANEL_ENTER:
-		case 65376:
 			console.log("ENTER");
-			event.preventDefault();
-			if (document.getElementById("searchInput") != null) {
-		        var searchString = document.getElementById("searchInput").value;
-		        if (searchString != "") {
-					var url = Server.getServerAddr();	
-					var thisItem = {"title":"Search", "poster":"images/ic_search_white.png", "Overview":"Results of search for '" + searchString + "'"};
-					thisItem.title = "Search";
-					thisItem.Overview = "Results of search for '" + searchString + "'";
-					thisItem.poster ="images/ic_search_white.png";
-					Support.updateURLHistory("GuiPage_Search",GuiPage_Search.startParams[0],GuiPage_Search.startParams[1],null,null,0,0,null,searchString,thisItem);
-					GuiDisplay_MediaItems.start("Search: " + searchString,url, 0,0, GuiPage_Search.ItemData, "cvasearch:" + searchString, thisItem);
-		        }
-			}
+	        var searchString = document.getElementById("searchInput").value;
+	        if (searchString != "") {
+				var url = Server.getServerAddr();	
+				var thisItem = {"title":"Search", "poster":"images/ic_search_white.png", "Overview":"Results of search for '" + searchString + "'"};
+				thisItem.title = "Search";
+				thisItem.Overview = "Results of search for '" + searchString + "'";
+				thisItem.poster ="images/ic_search_white.png";
+				Support.updateURLHistory("GuiPage_Search",GuiPage_Search.startParams[0],GuiPage_Search.startParams[1],null,null,0,0,null,searchString,thisItem);
+				GuiDisplay_MediaItems.start("Search: " + searchString,url, 0,0, GuiPage_Search.ItemData, "cvasearch:" + searchString, thisItem);
+	        }
 			break;	
 		case Common.API.KEY_TOOLS:
 			event.preventDefault();

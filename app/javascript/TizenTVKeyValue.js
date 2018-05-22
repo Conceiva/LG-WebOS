@@ -12,7 +12,7 @@ if (!this.Common) {
 Common.API.TVKeyValue = function(){
     this.KEY_TOOLS = 10135;
     this.KEY_MUTE = 449;
-    this.KEY_RETURN = 461;
+    this.KEY_RETURN = 10009;
     this.KEY_UP = 38;
     this.KEY_DOWN = 40;
     this.KEY_LEFT = 37;

@@ -123,6 +123,10 @@ Support.removeAllURLs = function() {
 	this.previousPageDetails.length = 0;
 }
 	
+Support.canGoBack = function() {
+	return this.previousPageDetails.length != 0;
+}
+
 Support.processReturnURLHistory = function(bookmark) {
 	console.log ("Just before removing item" + this.previousPageDetails.length);
 	
@@ -164,6 +168,7 @@ Support.processReturnURLHistory = function(bookmark) {
 	} else {
 		// make sure music has stopped to prevent tv reboot
 		GuiMusicPlayer.stopPlayback();
+		
 	}
 }
 
@@ -281,13 +286,13 @@ Support.updateDisplayedItems = function(Items,selectedItemID,startPos,endPos,Div
 							totalseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
 						}
 						var minutes = Support.convertTicksToTimeSingle(totalseconds* 1000);
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Music' src='images/music.png'>" + minutes + "</img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Music' src='images/music.png'>" + minutes + "</img></div></div></div>";
 					}
 					else {
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Music' src='images/music.png'>Live</img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Music' src='images/music.png'>Live</img></div></div></div>";
 					}
 				} else {
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(\"images/album.png\")'><div class=menuItem>"+ title + "</div></div>";
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(\"images/album.png\")'><div class=menuItem>"+ title + "</div></div>";
 				}
 			//----------------------------------------------------------------------------------------------
 			} else if (Items[index].type == "Movie" || Items[index].type == "Episode") {
@@ -308,19 +313,19 @@ Support.updateDisplayedItems = function(Items,selectedItemID,startPos,endPos,Div
 							var playedPercentage = (bookmarkseconds / totalseconds) * 100;
 							progress = Math.round((Main.posterWidth / 100) * Math.round(playedPercentage));
 							
-							htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div><div class=menuProgressBar><div class=menuProgressBar_Current style='width:"+progress+"px;'></div></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img></div></div></div>";
+							htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div><div class=menuProgressBar><div class=menuProgressBar_Current style='width:"+progress+"px;'></div></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img></div></div></div>";
 						}
 						else {
 							if (Items[index].lastPlayed == "0") {
-								htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img><img class='icon_v' height='14' vspace='0' hspace='14' border='0' align='bottom' alt='*' title='Unwatched' src='images/h_inf_veil.png'></img></div></div></div>";
+								htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img><img class='icon_v' height='14' vspace='0' hspace='14' border='0' align='bottom' alt='*' title='Unwatched' src='images/h_inf_veil.png'></img></div></div></div>";
 							}
 							else {
-								htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img></div></div></div>";
+								htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img></div></div></div>";
 							}
 						}
 					}
 					else {
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>Live</img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>Live</img></div></div></div>";
 					}
 				} else if (Items[index].backdrop > 0) {
 					var imgsrc = Items[index].backdrop
@@ -343,16 +348,16 @@ Support.updateDisplayedItems = function(Items,selectedItemID,startPos,endPos,Div
 				if (Items[index].poster) {		
 					var imgsrc = Items[index].poster;
 					if (Items[index].unplayedChildCount != null && Items[index].unplayedChildCount != "0") {
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Folder' src='images/h_web_as_folder.png'>" +  + Items[index].childCount + " items <span class='item_v' title='Unwatched'>&nbsp;" + Items[index].unplayedChildCount + "&nbsp;</span></img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Folder' src='images/h_web_as_folder.png'>" +  + Items[index].childCount + " items <span class='item_v' title='Unwatched'>&nbsp;" + Items[index].unplayedChildCount + "&nbsp;</span></img></div></div></div>";
 					}
 					else {
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Folder' src='images/h_web_as_folder.png'>" +  + Items[index].childCount + " items</img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Folder' src='images/h_web_as_folder.png'>" +  + Items[index].childCount + " items</img></div></div></div>";
 					}
 				} else if (Items[index].poster) {			
 					var imgsrc = Items[index].poster;
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(" +imgsrc+ ")'><div class=menuItem>"+ title + "</div></div>";	
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(" +imgsrc+ ")'><div class=menuItem>"+ title + "</div></div>";	
 				} else {
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-color:rgba(0,0,0,0.5);background-image:url(images/EmptyFolder-122x98.png)'><div class=menuItem>"+ title + "</div></div>";
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-color:rgba(0,0,0,0.5);background-image:url(images/EmptyFolder-122x98.png)'><div class=menuItem>"+ title + "</div></div>";
 				}
 			//----------------------------------------------------------------------------------------------
 			} else if (Items[index].type.indexOf("video") == 0) {
@@ -366,19 +371,19 @@ Support.updateDisplayedItems = function(Items,selectedItemID,startPos,endPos,Div
 						// minutes are worth 60 seconds. Hours are worth 60 minutes.
 						var totalseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
 						var minutes = Support.convertTicksToMinutes(totalseconds* 1000);
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>" + minutes + "</img></div></div></div>";
 					}
 					else {
-						htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>Live</img></div></div></div>";
+						htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Movie' src='images/movie.png'>Live</img></div></div></div>";
 					}
 				} else if (Items[index].poster) {		
 					var imgsrc = Items[index].poster;
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(\"" +imgsrc+ "\")'><div class=menuItem>"+ title + "</div></div>";
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(\"" +imgsrc+ "\")'><div class=menuItem>"+ title + "</div></div>";
 				} else if (Items[index].backdrop) {			
 					var imgsrc = Items[index].backdrop;
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(" +imgsrc+ ")'><div class=menuItem>"+ title + "</div></div>";	
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(" +imgsrc+ ")'><div class=menuItem>"+ title + "</div></div>";	
 				} else {
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-color:rgba(0,0,0,0.5);'><div class=menuItem>"+ title + "</div></div>";
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-color:rgba(0,0,0,0.5);'><div class=menuItem>"+ title + "</div></div>";
 				}			
 			//----------------------------------------------------------------------------------------------
 			} else if (Items[index].type == "server") {
@@ -426,12 +431,12 @@ Support.updateDisplayedItems = function(Items,selectedItemID,startPos,endPos,Div
 				if (Items[index].poster) {		
 					var imgsrc = Items[index].poster;
 					var createdDate = Items[index].PremiereDate;
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Photo' src='images/photo.png'>" + createdDate + "</img></div></div></div>";
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlock>"+ title + "<br><div class='item_t'> <img class='icon_t' width='28' border='0' align='absmiddle' alt='Photo' src='images/photo.png'>" + createdDate + "</img></div></div></div>";
 				} else if (Items[index].backdrop) {			
 					var imgsrc = Items[index].backdrop;
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(" +imgsrc+ ")'><div class=menuItem>"+ title + "</div></div>";	
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-image:url(" +imgsrc+ ")'><div class=menuItem>"+ title + "</div></div>";	
 				} else {
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "' style='background-color:rgba(0,0,0,0.5);'><div class=menuItem>"+ title + "</div></div>";
+					htmlToAdd += "<div onclick='GuiDisplay_MediaItems.onClickItem(" + index + ")' id='"+ DivIdPrepend + Items[index].id + "' style='background-color:rgba(0,0,0,0.5);'><div class=menuItem>"+ title + "</div></div>";
 				}			
 			}	 	
 		}
@@ -556,9 +561,9 @@ Support.updateSelectedNEW = function(Array,selectedItemID,startPos,endPos,strIfS
 			document.getElementById("Counter").innerHTML = "";
 		} else {
 			if (totalRecordCount !== undefined || totalRecordCount != null) { 
-				document.getElementById("Counter").innerHTML = (selectedItemID + 1) + "/" + totalRecordCount;
+				//document.getElementById("Counter").innerHTML = (selectedItemID + 1) + "/" + totalRecordCount;
 			} else {
-				document.getElementById("Counter").innerHTML = (selectedItemID + 1) + "/" + Array.length;
+				//document.getElementById("Counter").innerHTML = (selectedItemID + 1) + "/" + Array.length;
 			}	
 		}	
 	}	
@@ -931,15 +936,15 @@ Support.processHomePageMenu = function (menuItem) {
 		
 		break;
 	case "Search":
+		GuiDisplay_MediaItems.saveHistoryPoint();
 		GuiPage_Search.start("Search",Server.getServerAddr(),"");
 		break;			
 	case "Servers":
+		GuiDisplay_MediaItems.saveHistoryPoint();
 		GuiPage_Servers.start();
 		break;		
 	case "Music":
-		if (GuiDisplay_MediaItems.ItemData[GuiDisplay_MediaItems.selectedItem] != null) {
-			GuiMusicPlayer.showMusicPlayer("GuiDisplay_MediaItems",GuiDisplay_MediaItems.ItemData[GuiDisplay_MediaItems.selectedItem].id,document.getElementById(GuiDisplay_MediaItems.ItemData[GuiDisplay_MediaItems.selectedItem].id).className);
-		}
+		GuiMusicPlayer.showMusicPlayer("GuiDisplay_MediaItems",GuiDisplay_MediaItems.ItemData[GuiDisplay_MediaItems.selectedItem].id,document.getElementById(GuiDisplay_MediaItems.ItemData[GuiDisplay_MediaItems.selectedItem].id).className);
 		break;
 	}
 }
@@ -956,6 +961,7 @@ Support.fadeImage = function(imgsrc) {
 	if (bg.substring(0,5) == "'file") {
 		bg = bg.substring(bg.indexOf("images")).slice(0, -1);
 	}
+	bg = bg.replace(/"/g,"");
 	//Do nothing if the image is the same as the old one.
 	if (bg != imgsrc) {
 		//Copy the current background image to the holder.

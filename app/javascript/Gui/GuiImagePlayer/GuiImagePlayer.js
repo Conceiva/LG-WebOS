@@ -30,10 +30,12 @@ GuiImagePlayer.start = function(ItemData,selectedItem,isPhotoCollection) {
 	
 	GuiMainMenu.changeVisibility("hidden");
 	
+	this.images.length = 0;
+	
 	//Show colour buttons on screen for a few seconds when a slideshow starts.
 	document.getElementById("GuiImagePlayer_ScreensaverOverlay").style.visibility="hidden";
 	document.getElementById("guiButtonShade").style.visibility = "";
-	GuiHelper.setControlButtons("Favourite","Date/Time","Help",GuiMusicPlayer.Status == "PLAYING" || GuiMusicPlayer.Status == "PAUSED" ? "Music" : null,"Return");
+	//GuiHelper.setControlButtons("Favourite","Date/Time","Help",GuiMusicPlayer.Status == "PLAYING" || GuiMusicPlayer.Status == "PAUSED" ? "Music" : null,"Return");
 	this.infoTimer = setTimeout(function(){
 		GuiHelper.setControlButtons(null,null,null,null,null);
 		document.getElementById("Clock").style.visibility = "hidden";
@@ -73,16 +75,17 @@ GuiImagePlayer.start = function(ItemData,selectedItem,isPhotoCollection) {
 	document.getElementById('imageView').style.visibility = "";
 	
     //Set Display Size to screen
-    /*this.Canvas.style.left = 0 + "px"; // set any value
+    this.Canvas.style.left = 0 + "px"; // set any value
     this.Canvas.style.top = 0 + "px"; // set any value
-    this.Canvas.style.width = Main.width + "px"; // set any value
-    this.Canvas.style.height = Main.height + "px"; // set any value
-	this.Canvas.style.zIndex = 50;*/
+    this.Canvas.width = window.innerWidth; // set any value
+    this.Canvas.height = window.innerHeight; // set any value
+	this.Canvas.style.zIndex = 50;
 	
 	
 	//Set Focus for Key Events
 	document.getElementById("body").onkeydown = document.getElementById("GuiImagePlayer").onkeydown;
 	
+    document.getElementById('imageView').onclick = GuiImagePlayer.toggleControls;
 	//Start Slide Show
     this.ImageViewer = new Image();
 
@@ -140,30 +143,34 @@ GuiImagePlayer.setSlideshowMode = function() {
     	var hRatio = width / GuiImagePlayer.Canvas.width  ;
 	    var vRatio = height / GuiImagePlayer.Canvas.height;
 	    var ratio  = Math.min ( hRatio, vRatio );
-	    if (ratio < 0.3) {
-	    	ratio = 1;
-	    }
-	    else if (ratio > 1) {
+
+	    if (hRatio > 1 || vRatio > 1) {
 	    	var hRatio =GuiImagePlayer.Canvas.width / width;
 		    var vRatio = GuiImagePlayer.Canvas.height / height;
 		    var ratio  = Math.min ( hRatio, vRatio );
 	    }
+		else if (ratio < 0.3) {
+	    	ratio = 1;
+	    }
+		
 	    var centerShift_x = ( GuiImagePlayer.Canvas.width - width*ratio ) / 2;
 	    var centerShift_y = ( GuiImagePlayer.Canvas.height - height*ratio ) / 2; 
     	context.drawImage(GuiImagePlayer.ImageViewer, 0, 0, width, height, centerShift_x, centerShift_y, width * ratio, height * ratio);
-	
-		clearTimeout(GuiImagePlayer.Timeout);
-		Support.setImagePlayerOverlay(GuiImagePlayer.overlay[GuiImagePlayer.imageIdx], GuiImagePlayer.overlayFormat);
-		GuiImagePlayer.Timeout = setTimeout(function(){
-			if (GuiImagePlayer.Paused == false) {
-				GuiImagePlayer.imageIdx = GuiImagePlayer.imageIdx+1;
-				if (GuiImagePlayer.imageIdx >= GuiImagePlayer.ItemData.length ) {
-					GuiImagePlayer.imageIdx = 0;
+		
+		var elem = document.getElementById("imageViewControls");
+		if (elem.style.display != "block") {
+			clearTimeout(GuiImagePlayer.Timeout);
+			Support.setImagePlayerOverlay(GuiImagePlayer.overlay[GuiImagePlayer.imageIdx], GuiImagePlayer.overlayFormat);
+			GuiImagePlayer.Timeout = setTimeout(function(){
+				if (GuiImagePlayer.Paused == false) {
+					GuiImagePlayer.imageIdx = GuiImagePlayer.imageIdx+1;
+					if (GuiImagePlayer.imageIdx >= GuiImagePlayer.ItemData.length ) {
+						GuiImagePlayer.imageIdx = 0;
+					}
+					GuiImagePlayer.prepImage(GuiImagePlayer.imageIdx);
 				}
-				GuiImagePlayer.prepImage(GuiImagePlayer.imageIdx);
-			}
-		}, delay);	
-
+			}, delay);	
+		}
     };
 	
 	this.playImage();
@@ -171,7 +178,9 @@ GuiImagePlayer.setSlideshowMode = function() {
 
 //Prepare next image
 GuiImagePlayer.prepImage = function(imageIdx) {
-	this.ImageViewer.src = GuiImagePlayer.images[imageIdx];
+    if (GuiImagePlayer.images != null) {
+        this.ImageViewer.src = GuiImagePlayer.images[imageIdx];
+    }
 }
 
 // Play image - only called once in slideshow!
@@ -184,6 +193,61 @@ GuiImagePlayer.playImage = function() {
 	context.clearRect(0, 0, GuiImagePlayer.Canvas.width, GuiImagePlayer.Canvas.height);
 }
 
+GuiImagePlayer.toggleControls = function() {
+	var elem = document.getElementById("imageViewControls");
+	if (elem.style.display == "block") {
+		elem.style.display = "none";
+		GuiImagePlayer.setSlideshowMode();
+	}
+	else {
+		elem.style.display = "block";
+		GuiImagePlayer.pause();
+	}
+}
+
+GuiImagePlayer.next = function() {
+	GuiImagePlayer.imageIdx++;
+	if (GuiImagePlayer.imageIdx == GuiImagePlayer.images.length) {
+		GuiImagePlayer.imageIdx = 0;	
+	}
+	GuiImagePlayer.prepImage(GuiImagePlayer.imageIdx);
+}
+
+GuiImagePlayer.prev = function() {
+	GuiImagePlayer.imageIdx--;
+	if (GuiImagePlayer.imageIdx < 0) {
+		GuiImagePlayer.imageIdx = GuiImagePlayer.images.length-1;
+	}
+	GuiImagePlayer.prepImage(GuiImagePlayer.imageIdx);
+}
+
+GuiImagePlayer.pause = function() {
+    clearTimeout(GuiImagePlayer.infoTimer);
+    clearTimeout(GuiImagePlayer.Timeout);
+}
+
+GuiImagePlayer.back = function() {
+	var elem = document.getElementById("imageViewControls");
+	elem.style.display = "none";
+
+    clearTimeout(GuiImagePlayer.infoTimer);
+    clearTimeout(GuiImagePlayer.Timeout);
+    GuiImagePlayer.Timeout = null;
+    GuiImagePlayer.images = [];
+    GuiImagePlayer.overlay = [];
+    document.getElementById("GuiImagePlayer_ScreensaverOverlay").innerHTML = "";
+    document.getElementById("guiButtonShade").style.visibility = "hidden";
+    //document.getElementById("Clock").style.visibility = ""
+    document.getElementById('imageView').style.visibility = "hidden";
+    event.preventDefault();
+    GuiImagePlayer.kill();
+    
+    //Turn On Screensaver
+    Support.screensaverOn();
+    Support.screensaver();
+    
+    Support.processReturnURLHistory();
+}
 
 GuiImagePlayer.keyDown = function() {
 	var keyCode = event.keyCode;

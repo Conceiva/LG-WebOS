@@ -64,14 +64,9 @@ GuiDisplay_Servers.AddDevice = function(device) {
 			break;
 		}
 	}
-	
-	var iconUri = "images/server.png";
-	if (device.iconArray.length != 0) {
-		iconUri = device.iconArray[0].iconUri;
-	}
-	
+
 	if (!found) {
-		GuiDisplay_Servers.ItemData.push({'guid':device.id, 'id':GuiDisplay_Servers.ItemData.length, 'title':device.name, 'ipAddress':device.ipAddress, 'type':'server', 'poster':iconUri});
+		GuiDisplay_Servers.ItemData.push({'guid':device.id, 'id':GuiDisplay_Servers.ItemData.length, 'title':device.name, 'ipAddress':device.ipAddress, 'type':'server', 'poster':device.iconUrl});
 		GuiDisplay_Servers.updateDisplayedItems();
 		GuiDisplay_Servers.updateSelectedItems();
 	}
@@ -91,36 +86,11 @@ GuiDisplay_Servers.RemoveDevice = function(device) {
 	}
 }
 
-GuiDisplay_Servers.handleProvider = function(provider) {
-					 // For further details, see the createServiceProvider() or getServiceProvider().
-	try {
-		var deviceFinder = provider.getDeviceFinder();
-		var monitoringCB = {
-			ondeviceadded: function (device) {
-				GuiDisplay_Servers.AddDevice(device);
-				
-			},
-			ondeviceremoved: function (device) {
-				GuiDisplay_Servers.RemoveDevice(device);
-			}
-		}
-
-		var listenerId = provider.getDeviceFinder().addDeviceDiscoveryListener(monitoringCB);
-
-		var devices = deviceFinder.getDeviceList("MEDIAPROVIDER");
-		for (i = 0; i < devices.length; i++) {
-			GuiDisplay_Servers.AddDevice(devices[i]);
-		}
-	} catch(e) {
-		GuiNotifications.setNotification("Error: " + e.name,"Error",true);
-	}
-}
-
 GuiDisplay_Servers.start = function() {	
 	console.log("Page Enter : GuiDisplay_Servers");
 	GuiMainMenu.changeVisibility("hidden");
 	
-	if (typeof webapis !== undefined || (typeof webapis !== undefined && webapis.allshare === undefined)) {
+	if (typeof chrome.sockets === 'undefined') {
 		GuiPage_NewServer.start();
 		return;
 	}
@@ -142,7 +112,7 @@ GuiDisplay_Servers.start = function() {
 	this.ItemData = [];
 	
 		//Update Padding on pageContent
-	document.getElementById("pageContent").innerHTML = "<div id=Center class='SeriesCenter'>" +
+	document.getElementById("pageContent").innerHTML = "<div id=ServersBack class='menu-icon' style='background-image:url(images/menu/Back-46x37.png)' onclick='Support.processReturnURLHistory();'></div><div id=Center class='SeriesCenter'>" +
 				"<div id=Content></div>" +
 			"</div>";
 			
@@ -151,26 +121,7 @@ GuiDisplay_Servers.start = function() {
 	GuiDisplay_Servers.updateSelectedItems();
 	this.onFocus();
 	
-		// Define success callback for creating ServiceProvider
-	function sProviderCallback(provider) {
-		GuiDisplay_Servers.handleProvider(provider);
-	}
-	// Define error callback for creating ServiceProvider
-	function eProviderCallback(error, state) {
-		GuiNotifications.setNotification("Error : " + error.name + "State: " + state,"Error",true);
-	}
-	// Try to create ServiceProvider object.
-	try {
-		var provider = webapis.allshare.serviceconnector.getServiceProvider();
-		if (provider == null) {
-			webapis.allshare.serviceconnector.createServiceProvider(sProviderCallback, eProviderCallback);
-		}
-		else {
-			GuiDisplay_Servers.handleProvider(provider);
-		}
-	} catch(e) {
-		GuiNotifications.setNotification("Error : " + e.message,"Error",true);
-	}
+	Discover.ssdpStart();
 }
 	
 GuiDisplay_Servers.updateDisplayedItems = function() {
@@ -193,7 +144,7 @@ GuiDisplay_Servers.updateSelectedItems = function () {
 	} else {
 
 		Support.updateSelectedNEW(this.ItemData,this.selectedItem,this.topLeftItem,
-				Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortrait seriesSelected highlightMezzmoBoarder","SeriesPortrait","",false,this.totalRecordCount);
+				Math.min(this.topLeftItem + this.getMaxDisplay(),this.ItemData.length),"SeriesPortrait","SeriesPortrait","",false,this.totalRecordCount);
 	
 		
 	}
@@ -316,7 +267,7 @@ GuiDisplay_Servers.updateSelectedBannerItems = function() {
 		}
 	}
 	if (this.selectedItem == -1) {
-		document.getElementById("Counter").innerHTML = (this.selectedBannerItem+1) + "/" + this.bannerItems.length;
+		//document.getElementById("Counter").innerHTML = (this.selectedBannerItem+1) + "/" + this.bannerItems.length;
 	}
 }
 
@@ -754,7 +705,7 @@ GuiDisplay_Servers.loadMoreData = function(itemData, NumberReturned, TotalMatche
 	
 	this.ItemData = itemData;
 	
-	document.getElementById("Counter").innerHTML = (this.selectedItem + 1) + "/" + TotalMatches;
+	//document.getElementById("Counter").innerHTML = (this.selectedItem + 1) + "/" + TotalMatches;
 	
 	//Reprocess Indexing Algorithm
 	this.ItemIndexData = Support.processIndexing(this.ItemData); 
